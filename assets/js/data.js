@@ -1,0 +1,238 @@
+/**
+ * ==========================================
+ *             USER DATA CONFIGURATION
+ * ==========================================
+ * INSTRUCTIONS:
+ * 1. To add a new item (project, job, post), copy the block between the comments
+ *    and paste it inside the square brackets [].
+ * 2. Be careful with commas! Each item in a list must be separated by a comma.
+ *    The last item in a list should NOT have a comma after the closing brace }.
+ * 3. Text strings must be inside quotes "" or ''.
+ */
+
+const profile = {
+    name: "Guillermo",
+    title: "Embedded Systems & Hardware Security Enthusiast",
+    tagline: "Specializing in Critical Infrastructure & Defense Technologies",
+    bio: `
+        I am a Computer Science and Engineering student at UAH, deeply passionate about Embedded Systems and the Cybersecurity architectures that protect them. 
+        I thrive at the intersection of hardware and software, exploring how we can anchor trust in physical devices to secure critical infrastructure against sophisticated threats.
+    `,
+    // Avatar image path. Ensure this file exists in assets/images/
+    avatar: "assets/images/avatar.svg",
+    currentFocus: {
+        title: "FPGA Side-Channel Attacks",
+        description: "Investigating power analysis vulnerabilities in low-cost FPGA implementations of AES.",
+        linkText: "Read the Research Log",
+        linkTarget: 2 // ID of the blog post
+    }
+};
+
+const projects = [
+    // --- COPY FROM HERE TO ADD A NEW PROJECT ---
+    {
+        title: "HomeLab",
+        description: `
+        Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.
+        `,
+        stack: ["Python", "Docker", "Bash", "NUT", "Proxmox", "TrueNAS"],
+        github: "https://github.com/Promete04/homelab", // Repo link
+        relatedPostId: 1
+    },
+    // --- END COPY ---
+    {
+        title: "PUF IoT Authentication FPGA",
+        description: `
+        Implementing a PUF-based authentication system for IoT devices using FPGA.
+        `,
+        stack: ["VHDL", "FPGA", "MQTT"],
+        github: "https://github.com/Promete04/puf-iot-authentication-fpga", // Repo link
+        relatedPostId: 2 // Linked to "Research Log: FPGA Security"
+    },
+];
+
+const experience = [
+    // --- COPY FROM HERE TO ADD A NEW JOB ---
+    {
+        role: "Year Abroad Student",
+        company: "Ludwig Maximilian University of Munich (LMU)",
+        period: "2025 - 2026",
+        details: `
+            Participating in an academic year abroad, focusing on advanced computer science topics and cultural exchange.
+        `,
+        relatedPostId: 3
+    },
+    {
+        role: "Computer Science and Engineering Student",
+        company: "Universidad de Alcalá (UAH)",
+        period: "2023 - 2027 (Expected)",
+        details: `
+            Pursuing a Bachelor's degree in Computer Science and Engineering. <a href="https://www.uah.es/es/estudios/Grado-en-Ingenieria-Informatica/" target="_blank" class="text-brand-600 hover:underline">Program Details</a>.
+        `
+    }
+    // --- END COPY ---
+];
+
+const blogPosts = [
+    // --- COPY FROM HERE TO ADD A NEW POST ---
+    {
+        id: 1,
+        title: "HomeLab",
+        date: "Nov 28, 2025",
+        excerpt: "Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.",
+
+        content: `
+    <p class="mb-4">Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.</p>
+        <div>
+            <!-- ENTRY 3 -->
+            <div class="group mb-12">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        Year Abroad Preparations
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">-> 2025-11-04</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        This is my first entry since I started my year abroad in Germany. In order to prepare my homelab for it I've taken some measures:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed mb-4 space-y-1">
+                        <li>* Deep clean my servers and checked all connections (usually I clean them every 3 months, allowing for an easy process)</li>
+                        <li>* Instructed my family (If they restart the router they know that my UPS-ish script will turn the homelab off)</li>
+                        <li>* Prayed that nothing breaks</li>
+                    </ul>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                        Preparations out of the way, for a couple of weeks I have been working on migrating from Tailscale to a Wireguard + piHole||Adguard setup. Although I haven't finished that, while changing the config in my router I encountered some issues. Some of those changes made my router restart, making (with unlucky timing) my homelab to turn off. In order to solve this issue I have added a [DEBUG_MODE] flag to my UPS script, bypassing the shutting down functionality.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="py-12">
+                <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+            </div>
+            
+
+            <!-- ENTRY 2 -->
+            <div class="group mb-12">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        Backlog Updates
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">-> 2025-07-20</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Today I made some changes I had on my backlog.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed space-y-1">
+                        <li>Changed the draw.io diagram to reflect the changes made in the last entry and also the adding of the service booklore.</li>
+                        <li>Although, maybe obvious, I hadn't mounted my samba share in my primary server, so using Jellyfin was as hassle as I had to duplicate the data. Now I can easily save data in my NAS and use it.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="py-12">
+                <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+            </div>
+
+            <!-- ENTRY 1 -->
+            <div class="group">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        Power Shortage & Migration
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">-> 2025-05-31</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Since as of today, 31/05/2025, I will be documenting here more subtle changes that won't change the readme file.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Some important changes have been made. Due to the power shortage that happened the 28/04/2025 in Spain, and me not being fully prepared, my setup suffered damages, and I lost one drive (no data was lost). This event made me rethink how I run my homelab, and several changes were made:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed space-y-1">
+                        <li>Changed the OS of my primary server from Ubuntu to Proxmox, boosting my Containerization and VM capabilities.</li>
+                        <li>Made a script that simulates a UPS, so I am able to automatically turn off safely everything. It is located here: docs/Scripts/UPS</li>
+                        <li>Turned on AC recovery on both of the servers BIOSes, so no manual interaction is needed.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+
+`
+
+    },
+
+    {
+        id: 2,
+        title: "PUF IoT Authentication FPGA",
+        date: "Nov 28, 2025",
+        excerpt: "Implementing a PUF-based authentication system for IoT devices using FPGA.",
+        content: `
+    <p class="mb-10 text-lg text-gray-600 dark:text-slate-300">
+        This post serves as a container for my ongoing research into FPGA vulnerabilities. I will update this page with new entries as I progress.
+    </p>
+
+        <div>
+
+            <!-- ENTRY 1 -->
+            <div class="group">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        Academic Vision & Project Goals
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2025-11-28</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                        This project represents a cornerstone of my academic journey, serving as the core of my <strong>Bachelor's Thesis</strong>. Beyond its immediate technical scope, it plays a crucial role in my path toward specializing in advanced communications and embedded security.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mt-4">
+                        My goal is to leverage this research to demonstrate my readiness for the <a href="https://www.tum.de/en/studies/degree-programs/detail/communications-engineering-master-of-science-msc" target="_blank" class="text-brand-600 hover:underline">Master of Science in Communications Engineering at TUM (Technical University of Munich)</a>, a program I deeply aspire to join.
+                    </p>
+                </div>
+            </div>
+
+            
+            <!--
+            <div class="py-12">
+                <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+            </div>
+            -->
+
+
+
+        </div>
+`
+    },
+
+    {
+        id: 3,
+        title: "Year Abroad at LMU Munich",
+        date: "Nov 28, 2025",
+        excerpt: "Documenting my experiences and academic journey during my year abroad at Ludwig Maximilian University of Munich.",
+        content: `
+    <p class="mb-4">This log captures my experiences, challenges, and learnings during my year abroad at LMU Munich.</p>
+    
+    <div>
+        <!-- ENTRY 1 -->
+        <div class="group">
+            <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                    The Beginning
+                </h2>
+                <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2025-11-28</span>
+            </div>
+            <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Arriving in Munich marks the start of a new chapter. I'm looking forward to diving into the academic environment at LMU and exploring the city.
+                </p>
+            </div>
+        </div>
+    </div>
+`
+    }
+    // --- END COPY ---
+];
