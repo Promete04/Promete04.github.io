@@ -181,6 +181,17 @@ function renderHome() {
                 <p class="max-w-2xl text-gray-600 dark:text-slate-400 text-lg leading-relaxed mb-10">
                     ${profile.bio}
                 </p>
+
+                ${profile.quote ? `
+                <figure class="mb-10 max-w-2xl">
+                    <blockquote class="text-xl italic font-medium text-slate-700 dark:text-slate-300">
+                        "${profile.quote}"
+                    </blockquote>
+                    <figcaption class="text-sm text-gray-500 dark:text-slate-500 mt-2">
+                        — ${profile.quoteAuthor}
+                    </figcaption>
+                </figure>
+                ` : ''}
                 
                 <div class="flex gap-4 mb-12">
                     <button onclick="renderSection('projects')" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg shadow-brand-500/20">

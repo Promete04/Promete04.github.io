@@ -18,6 +18,8 @@ const profile = {
         I am a Computer Science and Engineering student at UAH, deeply passionate about Embedded Systems and the Cybersecurity architectures that protect them. 
         I thrive at the intersection of hardware and software, exploring how we can anchor trust in physical devices to secure critical infrastructure against sophisticated threats.
     `,
+    quote: "Try everything once.",
+    quoteAuthor: "Linus Torvalds",
     // Avatar image path. Ensure this file exists in assets/images/
     avatar: "assets/images/avatar.svg",
     currentFocus: {
@@ -48,6 +50,14 @@ const projects = [
         stack: ["VHDL", "FPGA", "MQTT"],
         github: "https://github.com/Promete04/puf-iot-authentication-fpga", // Repo link
         relatedPostId: 2 // Linked to "Research Log: FPGA Security"
+    },
+    {
+        title: "Mobile Compute Node",
+        description: `
+        Designing a portable computing platform for field operations and remote deployments.`,
+        stack: ["Python", "Docker", "Bash", "Kali Linux", "NetworkManager"],
+        github: "placeholder", // Repo link
+        relatedPostId: 4
     },
 ];
 
@@ -233,6 +243,31 @@ const blogPosts = [
         </div>
     </div>
 `
-    }
-    // --- END COPY ---
+    },
+    {
+        id: 4,
+        title: "Mobile Compute Node",
+        date: "Jan 11, 2026",
+        excerpt: "Designing a portable computing platform for field operations and remote deployments.",
+        content: `
+    <p class="mb-4">This post captures the development and deployment of a Mobile Compute Node, its objectives, tech stack, and use cases are to be determined.</p>
+    <div>
+        <!-- ENTRY 1 -->
+        <div class="group">
+            <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                    Setting objectives
+                </h2>
+                <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2026-01-11</span>
+            </div>
+            <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                    The primary goal of this project is to design and implement a portable computing platform that can be easily deployed in field operations and remote locations. This node should be capable of handling various computational tasks while being resilient to environmental challenges. 
+                    The compute node cosist of a gutted all-in-one (more info to come). It has a battery pack, a SATA SSD and the on/off and reset buttons. The board itself has an 32GB eMMC module, a WiFi card, 4GB of RAM and a GigaBit RJ45 daughter board.
+                    Right now I have configed it so it is SSH accessible via WiFi (the wifi card functions as an AP) and Ethernet. The Ethernet can be set to client or server mode, in the latter it becomes the DHCP server, more functionalit to come.
+                </p>
+            </div>
+        </div>
+    </div>
+`    },
 ];
