@@ -88,12 +88,43 @@ const blogPosts = [
     {
         id: 1,
         title: "HomeLab",
-        date: "Nov 28, 2025",
+        date: "Mar 18, 2026",
         excerpt: "Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.",
 
         content: `
     <p class="mb-4">Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.</p>
         <div>
+            <!-- ENTRY 4 -->
+            <div class="group mb-12">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        Two Nodes Are Better Than One
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">-> 2026-03-18</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        A fairly big update to the lab while I've been away. My gaming laptop, an Asus TUF Dash F15 (i7-12650H, RTX 3060, 16 GB DDR5), is now a full Proxmox node, joining the Dell Optiplex 9020 to form a two-node cluster. The Optiplex stays as <strong>Entrypoint</strong> (networking, automation, notes) and the laptop becomes <strong>asus</strong>, the GPU workhorse.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        What moved to the asus node:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed mb-4 space-y-1">
+                        <li><strong>Ollama LXC</strong>, running 7B and 9B parameter models with GPU passthrough via the RTX 3060.</li>
+                        <li><strong>Jellyfin LXC</strong>, also GPU-accelerated so transcoding no longer throttles the Optiplex.</li>
+                        <li><strong>Minecraft server LXC</strong>, freeing up resources on the primary node.</li>
+                        <li><strong>Second Tailscale LXC</strong> as a failover, so if the primary tunnel goes down while I'm remote I still have a way back in.</li>
+                    </ul>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                        One thing that didn't pan out: I tried to salvage a previously damaged drive by mounting it internally in the Optiplex and reading the undamaged sectors, but it was too far gone. It's unrecoverable and is now just sitting there doing nothing. Good reminder to keep backups.
+                    </p>
+                </div>
+            </div>
+
+            <div class="py-12">
+                <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+            </div>
+
             <!-- ENTRY 3 -->
             <div class="group mb-12">
                 <div class="flex flex-wrap items-baseline gap-3 mb-4">
@@ -221,12 +252,37 @@ const blogPosts = [
     {
         id: 3,
         title: "Year Abroad at LMU Munich",
-        date: "Nov 28, 2025",
+        date: "Mar 18, 2026",
         excerpt: "Documenting my experiences and academic journey during my year abroad at Ludwig Maximilian University of Munich.",
         content: `
     <p class="mb-4">This log captures my experiences, challenges, and learnings during my year abroad at LMU Munich.</p>
     
     <div>
+        <!-- ENTRY 2 -->
+        <div class="group mb-12">
+            <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                    Midway Through, Courses, People & the City
+                </h2>
+                <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2026-03-18</span>
+            </div>
+            <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                    A few months in and Munich has completely won me over. The city has a rare quality, in its quiet tranquility also resides a "je ne sais quoi" that excites me, be it its precious buildings or its breathtaking surrounding (and inner) nature. It's something that can't be described with words.
+                </p>
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                    Saying that the social side has been good would be an understatement. Mingling with internationals was expected and has helped me broaden my horizons, allowing me to understand different views and making oneself more open-minded. On the other side, locals. I can't state strongly enough how lucky I have been in this aspect, as I have been able to make what are expected to be long-lasting friendships with amazing people. This mixture has been enriching in a way I could not have predicted.
+                </p>
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                    On the academic front, all courses passed. I have yet to sit the exam for the <strong>Blockvorlesung on Intelligent Systems</strong> given by <strong>Juan Bernabé Moreno</strong>, which I look forward to, as the course gave me a solid foundation to build on.
+                </p>
+            </div>
+        </div>
+
+        <div class="py-12">
+            <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+        </div>
+
         <!-- ENTRY 1 -->
         <div class="group">
             <div class="flex flex-wrap items-baseline gap-3 mb-4">
