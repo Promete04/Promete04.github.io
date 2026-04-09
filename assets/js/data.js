@@ -15,22 +15,21 @@ const profile = {
     title: "Embedded Systems & Hardware Security Enthusiast",
     tagline: "Specializing in Critical Infrastructure & Defense Technologies",
     bio: `
-        I am a Computer Science and Engineering student at UAH, passionate about Embedded Systems and the intersection of hardware and software. Over time, a curiosity for hardware tinkering, a Model UN debate representing Portugal on the right to privacy, a growing awareness of how exposed our systems really are, and a rabbit hole or two led me to hardware security and the architectures that protect critical infrastructure. Currently on an Erasmus year at LMU Munich, taking courses like Cryptography and IT-Sicherheit, and working towards a Master's in Communications Engineering at TUM, with the hope of building something meaningful from there.
+        I am a Computer Science and Engineering student at UAH, passionate about Embedded Systems and the intersection of hardware and software. Over time, a curiosity for hardware tinkering, a Model UN debate representing Portugal on the right to privacy, a growing awareness of how exposed our systems really are, and a rabbit hole or two led me to hardware security and the architectures that protect critical infrastructure. Currently on an Erasmus year at LMU Munich, taking courses like Cryptography and Security Bug Bounty, and working towards a Master's in Communications Engineering at TUM, with the hope of building something meaningful from there.
     `,
     quote: "Try everything once.",
     quoteAuthor: "Linus Torvalds",
     // Avatar image path. Ensure this file exists in assets/images/
     avatar: "assets/images/avatar.svg",
     currentFocus: {
-        title: "FPGA Side-Channel Attacks",
-        description: "Investigating power analysis vulnerabilities in low-cost FPGA implementations of AES.",
+        title: "Secure Boot on Soft-Core FPGAs",
+        description: "Designing and benchmarking a hardware-rooted secure boot chain on Artix-7 (MicroBlaze), with software versus hardware cryptographic verification.",
         linkText: "Read the Research Log",
         linkTarget: 2 // ID of the blog post
     }
 };
 
 const projects = [
-    // --- COPY FROM HERE TO ADD A NEW PROJECT ---
     {
         title: "HomeLab",
         description: `
@@ -40,15 +39,14 @@ const projects = [
         github: "https://github.com/Promete04/homelab", // Repo link
         relatedPostId: 1
     },
-    // --- END COPY ---
     {
-        title: "PUF IoT Authentication FPGA",
+        title: "Secure Boot on Artix-7 MicroBlaze",
         description: `
-        Implementing a PUF-based authentication system for IoT devices using FPGA.
+        Building a secure boot architecture on FPGA with an immutable BRAM bootloader that validates QSPI firmware using SHA-256 and RSA before execution.
         `,
-        stack: ["VHDL", "FPGA", "MQTT"],
+        stack: ["C", "Vivado", "Vitis", "MicroBlaze", "mbedTLS", "RSA", "SHA-256"],
         github: "https://github.com/Promete04/puf-iot-authentication-fpga", // Repo link
-        relatedPostId: 2 // Linked to "Research Log: FPGA Security"
+        relatedPostId: 2 // Linked to secure boot research log
     },
     {
         title: "Mobile Compute Node",
@@ -61,7 +59,6 @@ const projects = [
 ];
 
 const experience = [
-    // --- COPY FROM HERE TO ADD A NEW JOB ---
     {
         role: "Year Abroad Student",
         company: "Ludwig Maximilian University of Munich (LMU)",
@@ -79,7 +76,6 @@ const experience = [
             Pursuing a Bachelor's degree in Computer Science and Engineering. <a href="https://www.uah.es/es/estudios/Grado-en-Ingenieria-Informatica/" target="_blank" class="text-brand-600 hover:underline">Program Details</a>.
         `
     }
-    // --- END COPY ---
 ];
 
 const blogPosts = [
@@ -204,12 +200,12 @@ const blogPosts = [
 
     {
         id: 2,
-        title: "PUF IoT Authentication FPGA",
+        title: "Secure Boot on Soft-Core FPGAs",
         date: "Nov 28, 2025",
-        excerpt: "Implementing a PUF-based authentication system for IoT devices using FPGA.",
+        excerpt: "Evaluating performance and security trade-offs in a hardware-accelerated secure boot chain on Artix-7 MicroBlaze.",
         content: `
     <p class="mb-10 text-lg text-gray-600 dark:text-slate-300">
-        This post serves as a container for my ongoing research into FPGA vulnerabilities. I will update this page with new entries as I progress.
+        This research log documents my Bachelor's thesis: designing, implementing, and evaluating a secure boot architecture where an FPGA acts as the hardware root of trust.
     </p>
 
         <div>
@@ -218,16 +214,25 @@ const blogPosts = [
             <div class="group">
                 <div class="flex flex-wrap items-baseline gap-3 mb-4">
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
-                        Academic Vision & Project Goals
+                        Thesis Scope, Platform, and Research Direction
                     </h2>
                     <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2025-11-28</span>
                 </div>
                 <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
                     <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
-                        This project represents a cornerstone of my academic journey, serving as the core of my <strong>Bachelor's Thesis</strong>. Beyond its immediate technical scope, it plays a crucial role in my path toward specializing in advanced communications and embedded security.
+                        The project target is the <strong>Alinx AX7035B</strong> board with a <strong>Xilinx Artix-7 XC7A35T</strong>, using <strong>Vivado</strong> for hardware integration and <strong>Vitis</strong> for C development on a <strong>MicroBlaze</strong> soft-core. The objective is to build a commercial-style secure boot chain, not just a proof of concept.
                     </p>
                     <p class="text-gray-600 dark:text-slate-400 leading-relaxed mt-4">
-                        My goal is to leverage this research to demonstrate my readiness for the <a href="https://www.tum.de/en/studies/degree-programs/detail/communications-engineering-master-of-science-msc" target="_blank" class="text-brand-600 hover:underline">Master of Science in Communications Engineering at TUM (Technical University of Munich)</a>, a program I deeply aspire to join.
+                        The bootloader is intentionally immutable (stored in on-chip BRAM). On startup, it reads an external application image from QSPI flash, computes SHA-256, verifies an RSA signature, and only then transfers control. If verification fails, execution is halted.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mt-4">
+                        The research contribution is an empirical comparison: (1) full software verification using mbedTLS, and (2) hardware-accelerated verification using dedicated cryptographic IP. I will benchmark boot latency, FPGA resource usage (LUTs/BRAM), and power impact, then analyze the security/performance trade-offs.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mt-4">
+                        A formal threat model is part of the work, including physical access assumptions (QSPI tampering, JTAG probing). The validation plan includes byte-level firmware modification in flash to demonstrate that a tampered payload is reliably rejected.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mt-4">
+                        Strategically, this thesis aligns with my goal of pursuing the <a href="https://www.tum.de/en/studies/degree-programs/detail/communications-engineering-master-of-science-msc" target="_blank" class="text-brand-600 hover:underline">MSc in Communications Engineering at TUM</a>, by showing measurable, security-focused hardware/software co-design work relevant to critical infrastructure.
                     </p>
                 </div>
             </div>
