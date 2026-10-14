@@ -160,52 +160,107 @@ function renderSection(section, dataId = null, pushHistory = true) {
     }
 }
 
+// Shared "$ ls ~/path" style header for each section
+function sectionHeader(title, path) {
+    return `
+        <div class="border-b border-gray-200 dark:border-slate-800 pb-4 mb-10">
+            <p class="prompt text-sm font-mono text-gray-500 dark:text-slate-500 mb-2">ls ${path}</p>
+            <h2 class="text-3xl font-bold text-slate-900 dark:text-white">${title}</h2>
+        </div>
+    `;
+}
+
+// Typewriter effect; a new call cancels any typing still in progress
+let typingRun = 0;
+function typeText(el, text, speed = 35) {
+    const run = ++typingRun;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = text;
+        return;
+    }
+    el.textContent = '';
+    let i = 0;
+    (function step() {
+        if (run !== typingRun || i >= text.length) return;
+        el.textContent += text[i++];
+        setTimeout(step, speed);
+    })();
+}
+
 function renderHome() {
+    const focus = profile.currentFocus;
+
     app.innerHTML = `
-        <div class="flex flex-col items-center min-h-screen text-center py-12">
-            
-            <!-- Top Content Group -->
-            <div class="flex flex-col items-center justify-center flex-grow w-full">
-                <div class="relative mb-8">
-                    <img src="${profile.avatar}" alt="Profile" class="w-32 h-32 rounded-lg shadow-xl ring-2 ring-gray-200 dark:ring-slate-700 bg-slate-100 dark:bg-slate-800">
+        <div class="flex flex-col items-center py-6 sm:py-12">
+
+            <!-- Hero -->
+            <div class="flex flex-col sm:flex-row items-center gap-8 w-full max-w-3xl mb-12 reveal">
+                <div class="relative shrink-0">
+                    <img src="${profile.avatar}" alt="Profile" class="w-64 h-auto rounded-lg shadow-xl ring-2 ring-brand-500/40 bg-slate-100 dark:bg-slate-800">
+                    <span class="absolute -bottom-2 -right-2 flex items-center gap-1.5 text-xs font-mono px-2 py-1 rounded bg-white dark:bg-dark-surface border border-gray-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                        <span class="status-dot w-2 h-2 rounded-full bg-emerald-500"></span> online
+                    </span>
                 </div>
-                
-                <h1 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
-                    ${profile.name}
-                </h1>
-                
-                <h2 class="text-xl text-brand-600 dark:text-brand-500 font-medium mb-6">
-                    ${profile.title}
-                </h2>
-                
-                <p class="max-w-2xl text-gray-600 dark:text-slate-400 text-lg leading-relaxed mb-10">
-                    ${profile.bio}
+                <div class="text-center sm:text-left">
+                    <p class="prompt font-mono text-sm text-gray-500 dark:text-slate-500 mb-2">whoami</p>
+                    <h1 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight text-slate-900 dark:text-white">
+                        ${profile.name}<span class="text-brand-600 dark:text-brand-500">.</span>
+                    </h1>
+                    <h2 class="text-lg sm:text-xl text-brand-600 dark:text-brand-500 font-medium min-h-[3.5rem] sm:min-h-0">
+                        <span class="text-gray-400 dark:text-slate-600">&gt;</span> <span id="typed-title"></span><span class="cursor"></span>
+                    </h2>
+                    <p class="text-sm text-gray-500 dark:text-slate-500 mt-2">${profile.tagline}</p>
+                </div>
+            </div>
+
+            <!-- Bio terminal -->
+            <div class="terminal w-full max-w-3xl mb-8 reveal" style="animation-delay: 0.1s">
+                <div class="terminal-bar">
+                    <span class="terminal-dot bg-red-500/80"></span>
+                    <span class="terminal-dot bg-amber-400/80"></span>
+                    <span class="terminal-dot bg-emerald-500/80"></span>
+                    <span class="ml-3 text-xs font-mono text-gray-500 dark:text-slate-500">guillermo@uah: ~</span>
+                </div>
+                <div class="p-6 sm:p-8 text-left">
+                    <p class="prompt font-mono text-sm text-gray-500 dark:text-slate-500 mb-4">cat about.txt</p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                        ${profile.bio}
+                    </p>
+                    ${profile.quote ? `
+                    <p class="mt-6 text-sm text-gray-500 dark:text-slate-500 italic">
+                        <span class="text-brand-600 dark:text-brand-500 not-italic">//</span> "${profile.quote}" — ${profile.quoteAuthor}
+                    </p>
+                    ` : ''}
+                </div>
+            </div>
+
+            ${focus ? `
+            <!-- Current focus -->
+            <div onclick="renderSection('blog', ${focus.linkTarget})" class="card-glow cursor-pointer w-full max-w-3xl mb-12 p-6 rounded-lg border border-gray-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 bg-white/70 dark:bg-dark-surface/70 text-left group reveal" style="animation-delay: 0.2s">
+                <p class="font-mono text-xs uppercase tracking-widest text-brand-600 dark:text-brand-500 mb-2 flex items-center gap-2">
+                    <span class="status-dot w-2 h-2 rounded-full bg-brand-500"></span> currently_building
                 </p>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">${focus.title}</h3>
+                <p class="text-gray-600 dark:text-slate-400 text-sm leading-relaxed mb-4">${focus.description}</p>
+                <span class="text-brand-600 dark:text-brand-500 text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                    ${focus.linkText} <i class="fas fa-arrow-right text-xs"></i>
+                </span>
+            </div>
+            ` : ''}
 
-                ${profile.quote ? `
-                <figure class="mb-10 max-w-2xl">
-                    <blockquote class="text-xl italic font-medium text-slate-700 dark:text-slate-300">
-                        "${profile.quote}"
-                    </blockquote>
-                    <figcaption class="text-sm text-gray-500 dark:text-slate-500 mt-2">
-                        — ${profile.quoteAuthor}
-                    </figcaption>
-                </figure>
-                ` : ''}
-                
-                <div class="flex gap-4 mb-12">
-                    <button onclick="renderSection('projects')" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg shadow-brand-500/20">
-                        View Projects
-                    </button>
-                    <button onclick="renderSection('cv')" class="bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 transition">
-                        Resume
-                    </button>
-                </div>
-
-
+            <!-- Actions -->
+            <div class="flex flex-wrap justify-center gap-4 reveal" style="animation-delay: 0.3s">
+                <button onclick="renderSection('projects')" class="font-mono bg-brand-600 hover:bg-brand-500 text-white px-6 py-3 rounded-lg font-medium transition shadow-lg shadow-brand-500/20">
+                    ./projects
+                </button>
+                <button onclick="renderSection('cv')" class="font-mono bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-6 py-3 rounded-lg font-medium hover:border-brand-500 dark:hover:border-brand-500 transition">
+                    cat resume.md
+                </button>
             </div>
         </div>
     `;
+
+    typeText(document.getElementById('typed-title'), profile.title);
 }
 
 function renderProjects() {
@@ -213,15 +268,18 @@ function renderProjects() {
     // Masonry Layout using CSS Columns
     grid.className = "columns-1 md:columns-2 gap-6 space-y-6";
 
-    projects.forEach(project => {
+    projects.forEach((project, i) => {
+        const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        const hasRepo = project.github && project.github.startsWith('http');
         grid.innerHTML += `
-            <div class="break-inside-avoid bg-white dark:bg-dark-surface p-6 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-500 transition group shadow-sm">
+            <div class="card-glow reveal break-inside-avoid bg-white/80 dark:bg-dark-surface/80 p-6 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-500 group shadow-sm" style="animation-delay: ${i * 0.08}s">
+                <p class="font-mono text-xs text-gray-400 dark:text-slate-600 mb-3">~/projects/<span class="text-brand-600 dark:text-brand-500">${slug}</span></p>
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition">
                         ${project.title}
                     </h3>
                     <div class="flex gap-3 text-gray-400">
-                        <a href="${project.github}" class="hover:text-brand-600 dark:hover:text-brand-500"><i class="fab fa-github"></i></a>
+                        ${hasRepo ? `<a href="${project.github}" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-500" title="Repository"><i class="fab fa-github"></i></a>` : ''}
                         ${project.relatedPostId ? `
                             <button onclick="renderSection('blog', ${project.relatedPostId})" class="hover:text-brand-600 dark:hover:text-brand-500" title="Read Blog Post">
                                 <i class="fas fa-book"></i>
@@ -234,8 +292,8 @@ function renderProjects() {
                 </p>
                 <div class="flex flex-wrap gap-2 mb-4">
                     ${project.stack.map(tech => `
-                        <span class="text-xs font-medium px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-gray-200 dark:border-slate-800">
-                            ${tech}
+                        <span class="text-xs font-medium px-2.5 py-1 rounded bg-gray-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-gray-200 dark:border-slate-800 group-hover:border-brand-500/40 transition">
+                            <span class="text-brand-600 dark:text-brand-500">#</span>${tech}
                         </span>
                     `).join('')}
                 </div>
@@ -243,12 +301,7 @@ function renderProjects() {
         `;
     });
 
-    app.innerHTML = `
-        <div class="border-b border-gray-200 dark:border-slate-800 pb-4 mb-8 flex justify-between items-end">
-            <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Discover what I am fiddling with</h2>
-            <span class="text-sm text-gray-500 dark:text-slate-500 font-mono hidden sm:block">~/projects</span>
-        </div>
-    `;
+    app.innerHTML = sectionHeader('Discover what I am fiddling with', '~/projects');
     app.appendChild(grid);
 }
 
@@ -256,10 +309,10 @@ function renderCV() {
     const container = document.createElement('div');
     container.className = "max-w-3xl mx-auto";
 
-    experience.forEach((job) => {
+    experience.forEach((job, i) => {
         container.innerHTML += `
-            <div class="relative pl-8 border-l border-gray-200 dark:border-slate-700 pb-10 last:pb-0">
-                <div class="absolute -left-1.5 top-1.5 w-3 h-3 bg-brand-500 rounded-full ring-4 ring-white dark:ring-dark-bg"></div>
+            <div class="reveal relative pl-8 border-l border-gray-200 dark:border-slate-700 pb-10 last:pb-0" style="animation-delay: ${i * 0.1}s">
+                <div class="${i === 0 ? 'status-dot ' : ''}absolute -left-1.5 top-1.5 w-3 h-3 bg-brand-500 rounded-full ring-4 ring-white dark:ring-dark-bg"></div>
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white">${job.role}</h3>
                     <span class="text-sm font-mono text-brand-600 dark:text-brand-500 bg-brand-50 dark:bg-brand-900/10 px-2 py-1 rounded mt-1 sm:mt-0">
@@ -281,26 +334,22 @@ function renderCV() {
         `;
     });
 
-    app.innerHTML = `
-        <div class="border-b border-gray-200 dark:border-slate-800 pb-4 mb-10 flex justify-between items-end">
-            <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Experience Log</h2>
-            <span class="text-sm text-gray-500 dark:text-slate-500 font-mono hidden sm:block">~/experience</span>
-        </div>
-    `;
+    app.innerHTML = sectionHeader('Experience Log', '~/experience');
     app.appendChild(container);
 }
 
 function renderBlog(postId = null) {
     if (postId) {
-        const post = blogPosts.find(p => p.id === postId);
+        const post = blogPosts.find(p => p.id === Number(postId));
         if (!post) return renderBlog();
 
         app.innerHTML = `
             <button onclick="renderSection('blog')" class="mb-8 text-sm font-medium text-brand-600 dark:text-brand-500 hover:underline flex items-center gap-2">
                 <i class="fas fa-arrow-left"></i> Return to Index
             </button>
-            <article class="bg-white dark:bg-dark-surface p-8 rounded-lg border border-gray-200 dark:border-slate-800 max-w-3xl mx-auto shadow-sm">
-                <header class="mb-8 border-b border-gray-100 hoverark:border-slate-700 pb-8">
+            <article class="bg-white/90 dark:bg-dark-surface/90 p-6 sm:p-8 rounded-lg border border-gray-200 dark:border-slate-800 max-w-3xl mx-auto shadow-sm">
+                <header class="mb-8 border-b border-gray-100 dark:border-slate-700 pb-8">
+                    <p class="prompt font-mono text-sm text-gray-500 dark:text-slate-500 mb-3">cat ~/blog/${post.id}.md</p>
                     <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">${post.title}</h1>
                     <div class="flex gap-6 text-sm text-gray-500 dark:text-slate-500 font-mono">
                         <span>${post.date}</span>
@@ -315,9 +364,9 @@ function renderBlog(postId = null) {
         const list = document.createElement('div');
         list.className = "max-w-3xl mx-auto space-y-6";
 
-        blogPosts.forEach(post => {
+        blogPosts.forEach((post, i) => {
             list.innerHTML += `
-                <div onclick="renderSection('blog', ${post.id})" class="cursor-pointer bg-white dark:bg-dark-surface p-6 rounded-lg border border-gray-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 transition group shadow-sm">
+                <div onclick="renderSection('blog', ${post.id})" style="animation-delay: ${i * 0.08}s" class="card-glow reveal cursor-pointer bg-white/80 dark:bg-dark-surface/80 p-6 rounded-lg border border-gray-200 dark:border-slate-800 hover:border-brand-500 dark:hover:border-brand-500 group shadow-sm">
                     <div class="flex flex-col sm:flex-row justify-between items-start mb-2 gap-2">
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition">
                             ${post.title}
@@ -336,12 +385,7 @@ function renderBlog(postId = null) {
             `;
         });
 
-        app.innerHTML = `
-            <div class="border-b border-gray-200 dark:border-slate-800 pb-4 mb-8 flex justify-between items-end">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Technical Notes</h2>
-                <span class="text-sm text-gray-500 dark:text-slate-500 font-mono hidden sm:block">~/blog</span>
-            </div>
-        `;
+        app.innerHTML = sectionHeader('Technical Notes', '~/blog');
         app.appendChild(list);
     }
 }

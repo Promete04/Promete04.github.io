@@ -63,3 +63,174 @@ input {
 ::-webkit-scrollbar-thumb:hover {
     background: #64748b;
 }
+/* ==========================================
+ *           TERMINAL THEME EFFECTS
+ * ========================================== */
+
+:root {
+    --grid-line: rgba(15, 23, 42, 0.05);
+    --glow: rgba(225, 29, 72, 0.10);
+}
+
+.dark {
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --glow: rgba(244, 63, 94, 0.13);
+}
+
+/* Grid background with a soft rose glow at the top */
+.bg-grid {
+    background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, var(--glow), transparent 70%),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
+    background-attachment: fixed;
+}
+
+/* Terminal window frame */
+.terminal {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--color-gray-200);
+    background: color-mix(in srgb, var(--color-light-surface) 85%, transparent);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 20px 50px -20px rgba(15, 23, 42, 0.25);
+}
+
+.dark .terminal {
+    border-color: var(--color-slate-800);
+    background: color-mix(in srgb, var(--color-dark-surface) 85%, transparent);
+    box-shadow: 0 20px 60px -20px rgba(244, 63, 94, 0.18);
+}
+
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    background: color-mix(in srgb, var(--color-gray-100) 70%, transparent);
+}
+
+.dark .terminal-bar {
+    border-color: var(--color-slate-800);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.terminal-dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 9999px;
+}
+
+/* Prompt prefix */
+.prompt::before {
+    content: "$ ";
+    color: var(--color-brand-600);
+}
+
+.dark .prompt::before {
+    color: var(--color-brand-500);
+}
+
+/* Blinking block cursor */
+.cursor::after {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-left: 0.15em;
+    vertical-align: text-bottom;
+    background: currentColor;
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Cards that lift and glow on hover */
+.card-glow {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px -12px rgba(225, 29, 72, 0.35);
+}
+
+.dark .card-glow:hover {
+    box-shadow: 0 12px 34px -10px rgba(244, 63, 94, 0.30);
+}
+
+/* Section fade and staggered reveal */
+.fade-in {
+    animation: fadeIn 0.35s ease-out;
+}
+
+.reveal {
+    opacity: 0;
+    animation: fadeUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Pulsing status dot */
+.status-dot {
+    position: relative;
+}
+
+.status-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: inherit;
+    animation: statusPing 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes statusPing {
+
+    75%,
+    100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cursor::after,
+    .status-dot::after,
+    .fade-in,
+    .reveal {
+        animation: none;
+        opacity: 1;
+    }
+
+    .card-glow:hover {
+        transform: none;
+    }
+}
