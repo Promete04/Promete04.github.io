@@ -49,10 +49,18 @@ const projects = [
         relatedPostId: 5 // Linked to FrodoKEM research log
     },
     {
+        title: "Project Accountability",
+        description: `
+        End-to-end encrypted group messaging with accountable, threshold key escrow. Chats are private by default, but a quorum of t-of-n independent escrow authorities (never the server, never a single party) can jointly recover a flagged group's key. Built with Itamar Fink as the final project for the Cryptography practical course at LMU.
+        `,
+        stack: ["C++20", "Crypto++", "Shamir / DKG", "ElGamal", "SQLite", "FTXUI"],
+        github: "https://github.com/Promete04/project-accountability" // Repo link
+    },
+    {
         title: "Ubiquitous Computing",
         description: `
-        University course project on ubiquitous computing. Its first building block is a Mobile Compute Node, a portable computing platform for field operations and remote deployments.`,
-        stack: ["Python", "Docker", "Bash", "Kali Linux", "NetworkManager"],
+        University course project on ubiquitous computing. We have specified ForestGuard, an early-warning wildfire detection system: solar-powered ESP32 sensor nodes on the trees that watch fuel dryness and combustion gases, reporting over ESP-NOW Long Range to a base station that fuses the readings with wind data and raises local and central alarms.`,
+        stack: ["ESP32", "ESP-NOW LR", "BME680", "MQTT", "Node-RED"],
         github: "placeholder", // Repo link
         relatedPostId: 4
     },
@@ -83,12 +91,50 @@ const blogPosts = [
     {
         id: 1,
         title: "HomeLab",
-        date: "Mar 18, 2026",
+        date: "Oct 23, 2026",
         excerpt: "Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.",
 
         content: `
     <p class="mb-4">Building and maintaining a comprehensive HomeLab for network segmentation, service deployment, and security configuration simulations.</p>
         <div>
+            <!-- ENTRY 5 -->
+            <div class="group mb-12">
+                <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                        An FPGA Joins the Lab
+                    </h2>
+                    <span class="font-mono text-sm text-gray-500 dark:text-slate-500">-> 2026-10-23</span>
+                </div>
+                <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        The biggest addition is an <strong>ALINX AX7035B</strong> (Artix-7) board, plugged into Entrypoint so I can learn VHDL from anywhere. A new <strong>Node-RED LXC</strong> runs the whole FPGA lab:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed mb-4 space-y-1">
+                        <li><strong>Power</strong>: the 5V adapter goes through a USB relay, so a token-protected flow on Node-RED switches the board on, off or resets it.</li>
+                        <li><strong>Serial</strong>: the board's UART is bridged to raw TCP, replacing my old <code>fpga-power</code> script and ser2net.</li>
+                        <li><strong>Camera</strong>: an old Android phone pointed at the board streams through scrcpy, so I can see the LEDs and the 7-segment display remotely.</li>
+                    </ul>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        From any machine on the LAN or over Tailscale it all comes down to three shell commands: <code>fpga_pwr</code>, <code>fpga_uart</code> and <code>fpga_cam</code>. A udev rule gives the relay and UART adapters stable names so they survive reboots and replugs.
+                    </p>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                        Other changes since the last entry:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed mb-4 space-y-1">
+                        <li>The Docker VM on asus is now a Docker LXC, and Entrypoint got its own Docker LXC as well.</li>
+                        <li>New services: <strong>BookOrbit</strong> (replacing Booklore) on Entrypoint, and <strong>Crafty Controller</strong> on asus. Open WebUI got reshuffled on Entrypoint, and Home Assistant OS is on 17.1.</li>
+                        <li>The dead drive is finally gone from the docs, and the cloudflared typo is fixed.</li>
+                    </ul>
+                    <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                        The draw.io diagram is now exported to SVG automatically by a GitHub Actions workflow, so the picture in the README can no longer drift from the source file.
+                    </p>
+                </div>
+            </div>
+
+            <div class="py-12">
+                <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+            </div>
+
             <!-- ENTRY 4 -->
             <div class="group mb-12">
                 <div class="flex flex-wrap items-baseline gap-3 mb-4">
@@ -320,11 +366,41 @@ const blogPosts = [
     {
         id: 4,
         title: "Ubiquitous Computing",
-        date: "Jan 11, 2026",
-        excerpt: "Course project log on ubiquitous computing, starting with the Mobile Compute Node: a portable platform for field operations and remote deployments.",
+        date: "Oct 23, 2026",
+        excerpt: "Course project log on ubiquitous computing: ForestGuard, an early-warning wildfire detection system for forests, plus the earlier Mobile Compute Node.",
         content: `
-    <p class="mb-4">This log follows my Ubiquitous Computing course project. Its first component is the Mobile Compute Node, a portable computing platform whose objectives, tech stack, and use cases are still being defined.</p>
+    <p class="mb-4">This log follows my Ubiquitous Computing course project. The main deliverable is ForestGuard, an early-warning wildfire detection system for forests; the log also keeps the earlier notes on the Mobile Compute Node.</p>
     <div>
+        <!-- ENTRY 2 -->
+        <div class="group mb-12">
+            <div class="flex flex-wrap items-baseline gap-3 mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-500 transition-colors">
+                    ForestGuard: System Specified
+                </h2>
+                <span class="font-mono text-sm text-gray-500 dark:text-slate-500">2026-10-23</span>
+            </div>
+            <div class="pl-4 border-l-2 border-gray-200 dark:border-slate-700 group-hover:border-brand-500 dark:group-hover:border-brand-500 transition-colors">
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                    As a team of four, we have finished the specification of <strong>ForestGuard</strong>, an early-warning system for forest fires. Towers, patrols and satellites only see a fire once the smoke clears the canopy; the idea here is to catch it under the trees, in its first minutes, and to flag dangerous conditions before there is a fire at all.
+                </p>
+                <ul class="list-disc list-inside text-gray-600 dark:text-slate-400 leading-relaxed mb-4 space-y-1">
+                    <li><strong>Sensor node</strong>: an ESP32 in an IP65 box on a tree trunk, with a BME680 (temperature, humidity, combustion gases), a capacitive soil moisture probe for fuel dryness, and a vibration sensor that wakes it if someone tampers with it or the tree falls. It spends almost all its time in Deep Sleep, runs on an 18650 cell and a small solar panel, and covers a 60 m radius (about 1.13 ha).</li>
+                    <li><strong>Link</strong>: ESP-NOW in Long Range mode, encrypted, straight to the base station. No router, no LoRa module, no mobile coverage needed.</li>
+                    <li><strong>Base station</strong>: an ESP32 receiver over USB to a small PC running the MQTT broker, Node-RED context rules and a map dashboard, plus a 24 V industrial signal tower (green, red, buzzer) driven through relays.</li>
+                </ul>
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed mb-4">
+                    The server fuses node readings with wind data from the AEMET API into a risk index based on the "30-30-30" rule, and the nodes adapt to it: a reading every 5 minutes normally, every minute under high risk, every 30 seconds on suspicion of fire. A fire is confirmed after two consecutive suspicious readings (gas resistance dropping well below its baseline together with a temperature spike), and if a node loses its link it will sound its own buzzer anyway.
+                </p>
+                <p class="text-gray-600 dark:text-slate-400 leading-relaxed">
+                    Each detector node comes in under 60 € at retail prices. Next up: building the two-node prototype.
+                </p>
+            </div>
+        </div>
+
+        <div class="py-12">
+            <div class="border-t border-gray-200 dark:border-slate-800 border-dashed"></div>
+        </div>
+
         <!-- ENTRY 1 -->
         <div class="group">
             <div class="flex flex-wrap items-baseline gap-3 mb-4">
